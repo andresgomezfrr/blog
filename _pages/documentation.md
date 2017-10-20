@@ -3,5 +3,4 @@ layout: page
 title: Documentation
 permalink: /documentation/
 ---
-
-Docs
+# <a href="{{site.baseurl}}/kafka/" class="nav-link">Kafka</a>
