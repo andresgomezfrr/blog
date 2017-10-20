@@ -31,6 +31,6 @@ sass:
   style: compressed
 
 
-include: [_pages]
+include: [_pages, _docs]
 
 gems: [jekyll-paginate, jekyll-seo-tag]

@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: documentation
 title: Kafka
 permalink: /kafka/
 ---
