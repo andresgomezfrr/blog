@@ -16,6 +16,12 @@ paginate: 5
 paginate_path: /page:num/
 
 
+# Social Links
+twitter_username:     andresgomezfrr
+github_username:      andresgomezfrr
+linkedin_username:    andresgomezfrr
+
+
 # Tracker
 analytics:
 
@@ -24,7 +30,7 @@ disqus-shortname:
 
 # Contact form
 # Go to https://getsimpleform.com and get a API token by signing up with your email and enter that here
-api-token:   
+api-token:
 
 #CSS
 sass:
