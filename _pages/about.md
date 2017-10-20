@@ -32,4 +32,9 @@ Andrés Gómez Ferrer
   </li>
 {% endif %}
 
+{% if site.email %}
+  <li>
+      <i class="fa fa-envelope"></i> {{ site.email }}
+  </li>
+{% endif %}
 </ul>
