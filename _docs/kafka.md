@@ -1369,6 +1369,6 @@ kafka_2.11-0.10.2.1/bin/connect-standalone.sh kafka_2.11-0.10.2.1/config/connect
 
 Para enviar mensajes podemos usar la siguiente web, debemos enviar los mensajes al mqtt topic `testtopic/1` .
 
-[Producor online MQTT](http://www.hivemq.com/demos/websocket-client/)
+[Productor online MQTT](http://www.hivemq.com/demos/websocket-client/)
 
 Podemos veriricar su funcionamiento consumiendo del kafka topic `mqtt` utilizando el consumidor de consola.
