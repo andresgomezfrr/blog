@@ -19,7 +19,7 @@ El cluster tendrá las siguientes dependencias:
 
 ## Instalación ZooKeeper y Kafka
 
-[Explicación Kafka](https://datadocs.xyz/kafka#zooKeeper-y-kafka)
+[Explicación Kafka](http://datadocs.xyz/kafka/)
 
 ## Instalación metadata storage (PostgreSQL)
 
