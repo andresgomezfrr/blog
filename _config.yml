@@ -1,10 +1,10 @@
 # Site settings
-title: "Big Data Blog"
+title: "Data Docs"
 title-font-size: '4em' # a provision to adjust the size of your title. If it is too long then do resize to a smaller value. By default it will be 4em.
 
 email: andresgomezfrr@gmail.com
 description: Big Data Blog
-baseurl: "/blog" # the subpath of your site, e.g. /blog
+baseurl: "/datadocs" # the subpath of your site, e.g. /blog
 url: "https://andresgomezfrr.github.io" # the base hostname & protocol for your site
 
 permalink: :title/
