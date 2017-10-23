@@ -4,8 +4,8 @@ title-font-size: '4em' # a provision to adjust the size of your title. If it is 
 
 email: andresgomezfrr@gmail.com
 description: Big Data Blog
-baseurl: "/datadocs" # the subpath of your site, e.g. /blog
-url: "https://andresgomezfrr.github.io" # the base hostname & protocol for your site
+baseurl:  # the subpath of your site, e.g. /blog
+url: "https://datadocs.xyz" # the base hostname & protocol for your site
 
 permalink: :title/
 
