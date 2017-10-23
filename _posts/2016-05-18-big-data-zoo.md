@@ -18,6 +18,8 @@ Algunas de las tecnologías que podemos encontrar  en este grupo son:
 * **Sistemas distribuidos de colas**: El más conocido actualmente es Apache Kafka, pero existen otros como RabbitMQ, y soluciones en la cloud como AWS Kinesis.
 * **Sistemas de procesamiento de logs**: Donde podemos encontrar tecnologías como Logstash y Fluentd.
 
+![](../images/post-data-zoo/lluvia.jpeg)
+
 ### Procesamiento
 
 El procesamiento de la información es la fase en la que se realizan transformaciones a los datos en bruto para adaptar y obtener datos procesados y enriquecidos, que aporten el valor real de la información. El procesamiento se puede dividir en dos subgrupos dependiendo del volumen de datos y tiempo de procesamiento de estos: streaming processing y batch processing.
@@ -29,6 +31,8 @@ El streaming processing es un **procesamiento que se realiza en tiempo real**, t
 * **Full-Streaming**: Apache Storm, Apache Samza, Apache Flink.
 * **Microbatch**: Spark Streaming, Storm Trident.
 
+![](../images/post-data-zoo/cascada.jpg)
+
 Estas tecnologías procesan eventos en **cuestión de milisegundos** y aseguran distintas garantías ante fallos de sistemas o de la red. Las garantías se suelen clasificar en tres grupos, que se pueden observar en la tabla a continuación:
 
 |                 | Storm          | Samza            | Flink           | Spark Streaming  | Storm Trident     |
@@ -37,12 +41,14 @@ Estas tecnologías procesan eventos en **cuestión de milisegundos** y aseguran 
 | Mínimo una vez | Si             |Si              | No             |No               |Si                  |
 | Exactamente una vez | No             |No              | Si             |Si               |Si                  |
 
+
 #### Batch Processing
 
 Por otro lado, el batch processing se realiza de manera periódica y son procesos que trabajan con **grandes volúmenes de información** (Gigabytes, Terabytes…). Principalmente, estos procesos se basan en el paradigma de MapReduce, que consta de dos fases: la primera es encargada de leer y adaptar los datos y en la segunda etapa es donde se realiza una agrupación de estos, normalmente en base a un clave común en todos. El ejemplo más común es el conocido “WordCount”, encargado de contar el número de repeticiones de cada palabra en un texto.
 
 Al igual que en los distintos grupos, existen múltiples tecnologías para realizar procesos de batch processing. La más conocida es **Hadoop MapReduce** que funciona dentro del ecosistema de Hadoop apoyándose por su planificador YARN, pero la programación de estos procesos es algo costoso por lo que a lo largo de los años han ido surgiendo tecnologías que proporcionan abstracciones a más alto nivel para desarrollar estos procesos, algunos de estas tecnologías son: Apache Pig (Scripting), Cascading (Java), Cascalog (Clojure).
 
+![](../images/post-data-zoo/mar.jpg)
 
 Aunque Hadoop MapReduce trabaja bastante bien con grandes cantidades de datos, los procesos de Map y Reduce pueden ser lentos ya que necesitan escribir a disco entre distintas fases, por este motivo surgen nuevas tecnologías que solucionan este problema, algunas de ellas son: Apache Tez, Apache Spark o nuevamente Apache Flink, que trabaja tanto en streaming como en batch.
 
@@ -58,6 +64,8 @@ Los sistemas de ficheros suelen utilizarse para almacenar el RAW de la informaci
 * Tachyon
 * Riak-CS
 * Soluciones en la cloud como AWS S3
+
+![](../images/post-data-zoo/presa.jpeg)
 
 #### Sistemas de almacenamiento de datos
 
@@ -78,7 +86,9 @@ El último grupo es el encargado de **representar la información almacenada** e
 * Django
 * AngularJS
 
-Estos frameworks se apoyan en librerías de visualización de datos como: D3, Chart.js, Highcharts o Kibana.
+![](../images/post-data-zoo/vaso.jpeg)
+
+Estos frameworks se apoyan en librerías de visualización de datos como: D3, Chart.js, Highcharts. Las librerias a su véz son usadas por herramientas de visualización como: Kibana, Grafana, Superset, Metabase, etc.
 
 ### Evalua tus necesidades
 
