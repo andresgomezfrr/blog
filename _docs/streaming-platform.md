@@ -36,8 +36,9 @@ El template de Nifi es el encargado de:
 En esta sección vamos a analizar los topics de usuario que vamos a utilizar en nuestro sistema.
 
 * **sensor-control** : Es utilizado para enviar ordenes de control a los sensores.
-* **sensor-data** : Es utilizado para recibir los datos desde los sensores.
-* **data-metrics** : Es utilizado para enviar las métricas calculadas a Druid.
+* **sensor-iot** : Es utilizado para recibir los datos de el sensor de iot. 
+* **sensor-system** : Es utilizado para enviar los datos del sensor de métricas de sistema.
+* **sensor-devices** : Es utilizado para enviar los datos del sensor de dispositivos.
 
 # Instalación
 
