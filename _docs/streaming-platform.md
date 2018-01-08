@@ -36,9 +36,11 @@ El template de Nifi es el encargado de:
 En esta sección vamos a analizar los topics de usuario que vamos a utilizar en nuestro sistema.
 
 * **sensor-control** : Es utilizado para enviar ordenes de control a los sensores.
-* **sensor-iot** : Es utilizado para recibir los datos de el sensor de iot. 
+* **sensor-iot** : Es utilizado para recibir los datos de el sensor de iot.
 * **sensor-system** : Es utilizado para enviar los datos del sensor de métricas de sistema.
 * **sensor-devices** : Es utilizado para enviar los datos del sensor de dispositivos.
+* **sensor-system-metrics** : Es utilizado para enviar las métricas del sistema procesadas por Samza.
+* **sensor-data-metrics** : Es utilizado para enviar las métricas de tiempo y dispositivos desde Samza.
 
 # Instalación
 
@@ -106,11 +108,190 @@ Los sensores se pueden encontrar en el github del proyecto, el como construir lo
 Para instalar Hadoop podemos seguir la guía que tenemos en esta misma web. [Instalación Hadoop YARN](http://datadocs.xyz/hadoop/)
 
 ## Samza
--
+
+El código de Samza lo podemos encontrar en el repo del proyecto: [Samza Task Source Code](https://github.com/andresgomezfrr/streaming-pipeline/tree/master/samza/samza-ejemplo)
+
+Para compilar el proyecto usaremos maven
+
+```
+mvn clean package
+```
+
+Esto generará un tar.gz que al descrompirlo obtendremos las utilidades necesarias, para ejecutar la APP de samza.
+
+```
+bin/run-job.sh --config-path src/config/stream-samza.properties
+```
+
+**Notas:**
+  * Tener ejecutando Zookeeper y Kafka
+  * Tener ejecutando Hadoop YARN
+  * El directorio `/var/log/samza/` debe existir.
 
 ## Druid
 
 Para instalar Druid podemos seguir la guía que tenemos en esta misma web. [Instalación Hadoop YARN](http://datadocs.xyz/druid/)
+
+* Sensor System Druid Supervisor Spec
+
+```json
+{
+  "type": "kafka",
+  "dataSchema": {
+    "dataSource": "sensor-system-metrics",
+    "parser": {
+      "type": "string",
+      "parseSpec": {
+        "format": "json",
+        "timestampSpec": {
+          "column": "timestamp",
+          "format": "ruby"
+        },
+        "dimensionsSpec": {
+          "dimensions": [],
+          "dimensionExclusions": [
+            "timestamp",
+            "value"
+          ]
+        }
+      }
+    },
+    "metricsSpec": [
+      {
+        "name": "count",
+        "type": "count"
+      },
+      {
+        "name": "value_sum",
+        "fieldName": "value",
+        "type": "doubleSum"
+      },
+      {
+        "name": "value_min",
+        "fieldName": "value",
+        "type": "doubleMin"
+      },
+      {
+        "name": "value_max",
+        "fieldName": "value",
+        "type": "doubleMax"
+      }
+    ],
+    "granularitySpec": {
+      "type": "uniform",
+      "segmentGranularity": "HOUR",
+      "queryGranularity": "MINUTE"
+    }
+  },
+  "tuningConfig": {
+    "type": "kafka",
+    "maxRowsPerSegment": 5000000
+  },
+  "ioConfig": {
+    "topic": "sensor-system-metrics",
+    "consumerProperties": {
+      "bootstrap.servers": "localhost:9092"
+    },
+    "taskCount": 1,
+    "replicas": 1,
+    "taskDuration": "PT1H"
+  }
+}
+```
+
+* Sensor Data Druid Supervisor Spec
+
+```json
+{
+  "type": "kafka",
+  "dataSchema": {
+    "dataSource": "sensor-data-metrics",
+    "parser": {
+      "type": "string",
+      "parseSpec": {
+        "format": "json",
+        "timestampSpec": {
+          "column": "timestamp",
+          "format": "ruby"
+        },
+        "dimensionsSpec": {
+          "dimensions": ["sensor"]
+        }
+      }
+    },
+    "metricsSpec": [
+      {
+        "name": "count",
+        "type": "count"
+      },
+      {
+        "name": "rssi_sum",
+        "fieldName": "rssi",
+        "type": "doubleSum"
+      },
+      {
+        "name": "temperature_sum",
+        "fieldName": "temperature",
+        "type": "doubleSum"
+      },
+      {
+        "name": "temperature_min",
+        "fieldName": "temperature",
+        "type": "doubleMin"
+      },
+      {
+        "name": "temperature_max",
+        "fieldName": "temperature",
+        "type": "doubleMax"
+      },
+      {
+        "name": "humidity_sum",
+        "fieldName": "humidity",
+        "type": "doubleSum"
+      },
+      {
+        "name": "humidity_min",
+        "fieldName": "humidity",
+        "type": "doubleMin"
+      },
+      {
+        "name": "humidity_max",
+        "fieldName": "humidity",
+        "type": "doubleMax"
+      },
+      {
+        "name": "clients",
+        "fieldName": "device",
+        "type": "hyperUnique"
+      }    
+    ],
+    "granularitySpec": {
+      "type": "uniform",
+      "segmentGranularity": "HOUR",
+      "queryGranularity": "MINUTE"
+    }
+  },
+  "tuningConfig": {
+    "type": "kafka",
+    "maxRowsPerSegment": 5000000
+  },
+  "ioConfig": {
+    "topic": "sensor-data-metrics",
+    "consumerProperties": {
+      "bootstrap.servers": "localhost:9092"
+    },
+    "taskCount": 1,
+    "replicas": 1,
+    "taskDuration": "PT1H"
+  }
+}
+```
+
+Para ejecutar las tareas de indexación debemos subir los ficheros mediante dos peticiones POST al Overlord.
+
+```
+curl -X POST -H 'Content-Type: application/json' -d @kafka-index.json http://localhost:8090/druid/indexer/v1/supervisor
+```
 
 ## Grafana
 
@@ -119,5 +300,11 @@ La instalación de grafana es tan simple como seguir el proceso de su web depend
 Una vez tengamos instalado grafana, debemos añadir el plugin que da el soporte para Druid, que es tan sencillo como ejecutar la siguiente linea:
 
 ```
-grafana-cli plugins install abhisant-druid-datasource
+git clone https://github.com/grafana-druid-plugin/druidplugin.git /usr/local/var/lib/grafana/plugins/druidplugin
 ```
+
+**Nota:** La ruta `/usr/local/var/lib/grafana/plugins/druidplugin` es por defecto, puede variar dependiendo del sistema, hay que utilizar el directorio donde grafana almacena los plugins.
+
+# Github Repo
+
+[Source Code](https://github.com/andresgomezfrr/streaming-pipeline)
