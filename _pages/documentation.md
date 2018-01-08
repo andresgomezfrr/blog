@@ -10,3 +10,4 @@ permalink: /documentation/
 * <a href="{{site.baseurl}}/apex/" class="nav-link">Apex</a>
 * <a href="{{site.baseurl}}/spark/" class="nav-link">Spark</a>
 * <a href="{{site.baseurl}}/druid/" class="nav-link">Druid</a>
+* <a href="{{site.baseurl}}/streaming-platform/" class="nav-link">Streaming Platform</a>
