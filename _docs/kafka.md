@@ -13,42 +13,20 @@ permalink: /kafka/
 
 Una vez vista la arquitectura básica de ZooKeeper y Kafka, vamos a iniciar ambos servicios y ver como Kafka se registra en ZooKeeper.
 
-1. En primer lugar vamos a descargar la versión estable de Apache ZooKeeper y a descomprimirla.
-```
-wget http://apache.rediris.es/zookeeper/stable/zookeeper-3.4.8.tar.gz
-```
-```
-tar -xvf zookeeper-3.4.8.tar.gz ; cd zookeeper-3.4.8
-```
-2. Una vez tenemos la distribución vamos a renombrar el fichero de configuración que viene por defecto.
-```
-cp conf/zoo_sample.cfg conf/zoo.cfg
-```
-
-3. Cuando ya tenemos el fichero de configuración preparado podemos ejecutar el servidor.
-```
- bin/zkServer.sh start
-```
-
-4. Finalmente podemos comprobar su correcto funcionamiento conectándonos usando la herramienta que viene con la distribución.
-```
-bin/zkCli.sh -server localhost:2181
-Connecting to localhost:2181
-[zk: localhost:2181(CONNECTED) 0] ls /
-[zookeeper]
-```
-
-Ya tenemos un servidor de ZooKeeper disponible y podemos empezar a descargar y configurar Kafka.
-
 1. Ahora vamos a descargar la distribución de Kafka y la descomprimimos.
 ```
-wget http://apache.rediris.es/kafka/0.10.2.1/kafka_2.11-0.10.2.1.tgz
+wget http://apache.rediris.es/kafka/2.1.0/kafka_2.12-2.1.0.tgz
 ```
 ```
-tar -xvf kafka_2.11-0.10.2.1.tgz ; cd kafka_2.11-0.10.2.1
+tar -xvf kafka_2.12-2.1.0.tgz ; cd kafka_2.12-2.1.0
 ```
 
-2. Para ejecutar Kafka utilizaremos uno de los scripts que proporciona:
+2. En primer lugar vamos a ejecutar un servidor de Zookeeper:
+```
+bin/zookeeper-server-start.sh config/zookeeper.properties
+```
+
+3. Para ejecutar Kafka utilizaremos uno de los scripts que proporciona:
 ```
 bin/kafka-server-start.sh config/server.properties
 ```
@@ -58,7 +36,7 @@ bin/kafka-server-start.sh -daemon config/server.properties
 ```
   * **Nota:** Por defecto la configuración de Kafka busca el servidor de ZooKeper en localhost:2181, si hemos levantado el servicio de Kafka y ZooKeeper en máquinas separadas deberemos editar el fichero ```config/server.properties```
 
-3. Para verificar que el servidor esta corriendo y se ha registrado correctamente en ZooKeeper podemos utilizar la utilidad **zkCli.sh**. Veremos que efectivamente existe un Broker con identificador 0, es el valor que viene en el fichero por defecto.
+4. Para verificar que el servidor esta corriendo y se ha registrado correctamente en ZooKeeper podemos utilizar la utilidad **zookeeper-shell.sh**. Veremos que efectivamente existe un Broker con identificador 0, es el valor que viene en el fichero por defecto.
 ```
 [zk: localhost:2181(CONNECTED) 5] ls /brokers/ids
 [0]
@@ -115,7 +93,7 @@ Los mensajes se dan por terminados y se envían cuando se pulsa enter.
 ### Consumidor
 Igual que el productor usaremos un script que viene proporcionado con Kafka:
 ```
-bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --property print.key=true --topic nuevo-topic  --new-consumer --consumer.config config/consumer.properties
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --property print.key=true --topic nuevo-topic  --consumer.config config/consumer.properties
 ```
 
 Una vez ejecutado, la shell se quedará abierta y empezaremos a ver los mensajes que enviamos por el productor. Hemos utilizado la opción **--consumer.config config/consumer.properties** para poder indicar un grupo de consumidor. Si mostramos el contenido del fichero:
@@ -163,7 +141,7 @@ Podemos ver que se indica un group.id con valor de **test-consumer-group**.
 
 En esta lección vamos a hablar de los distintos parámetros de configuración que se pueden aplicar al Broker de Kafka. El fichero utilizado para configurar el servicio de Kafka es ```server.properties```
 
-```properties
+```
 ################################ Server Basics ################################
 broker.id=0
 
@@ -185,7 +163,7 @@ Este es un ejemplo de fichero de configuración básico.
 
 * **broker.id** : Identificador único por cada Broker. También existe la posibilidad de generarlo de manera automática para ello debemos: eliminar esta propiedad y configurar las siguientes propiedades. Con esto conseguimos que el Broker obtenga un identificador único utilizando Zookeeper.
 
-```properties
+```
 broker.id.generation.enable=true
 reserved.broker.max.id=1000
 ```
@@ -997,7 +975,7 @@ Kafka nos proporciona una herramienta para consultar el LAG que tienen los disti
 Utilizando la herramienta **kafka-consumer-groups.sh** podemos listar los grupos de consumidores actuales y solicitar de que particiones y por que offset están cada uno de ellos.
 
 ```
-bin/kafka-consumer-groups.sh --new-consumer --bootstrap-server localhost:9092 --list
+bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list
 ```
 Este comando nos muestra los grupos de consumidores, dando una salida como la siguiente:
 
@@ -1008,7 +986,7 @@ console-consumer-69989
 Para preguntar por un grupo de consumidor en concreto deberíamos ejecutar lo siguiente:
 
 ```
-bin/kafka-consumer-groups.sh --new-consumer --bootstrap-server localhost:9092 --describe --group console-consumer-69989
+bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group console-consumer-69989
 ```
 
 Y nos mostrará una salida con el siguiente formato:
@@ -1055,13 +1033,13 @@ jconsole
 En primer lugar vamos a descargar la última versión del software desde el enlace que se encuentra en el repositorio oficial [Kafka Manager Github](https://github.com/yahoo/kafka-manager).
 
 ```
-wget https://github.com/yahoo/kafka-manager/archive/1.3.1.8.tar.gz
+wget https://github.com/yahoo/kafka-manager/archive/1.3.3.18.tar.gz
 ```
 
 Una vez descargado tenemos que descomprimir el fichero y nos creada una carpeta con el siguiente nombre *kafka-manager-1.3.1.8*
 
 ```
-tar -xvf 1.3.1.8.tar.gz
+tar -xvf 1.3.3.18.tar.gz
 ```
 
 Cuando tengamos la carpeta únicamente tenemos que construir la distribución utilizando el siguiente comando:
@@ -1075,10 +1053,10 @@ Cuando tengamos la carpeta únicamente tenemos que construir la distribución ut
 Al terminar el comando nos habra construido un fichero ZIP, que vamos a descomprimir, y entrar en la carpeta que se genera.
 
 ```
-unzip target/universal/kafka-manager-1.3.1.8.zip
+unzip target/universal/kafka-manager-1.3.3.18.zip
 ```
 ```
-cd kafka-manager-1.3.1.8/
+cd kafka-manager-1.3.3.18/
 ```
 
 Tenemos que editar el fichero de configuración en la ruta *conf/application.conf* y editar la linea donde se indica el servidor de ZooKeeper.
@@ -1331,8 +1309,8 @@ cd kafka-connect-mqtt; ./gradlew clean jar copyRuntimeLibs
 Una vez generado el jar lo copiamos dentro de la carpeta `libs` de la distribución de Kafka.
 
 ```
-cp build/libs/kafka-connect-mqtt-1.1-SNAPSHOT.jar ~/kafka_2.11-0.10.2.1/libs/
-cp build/output/lib/org.eclipse.paho.client.mqttv3-1.0.2.jar ~/kafka_2.11-0.10.2.1/libs/
+cp build/libs/kafka-connect-mqtt-1.1-SNAPSHOT.jar ~/kafka_2.12-2.1.0/libs/
+cp build/output/lib/org.eclipse.paho.client.mqttv3-1.0.2.jar ~/kafka_2.12-2.1.0/libs/
 ```
 
 Una vez añadida las dependencias tenemos que [iniciar un servidor ZooKeeper y un broker de Kafka](https://github.com/andresgomezfrr/big-data-md/blob/master/kafka/1.arquitectura/zookeeper-kafka.md).
@@ -1364,7 +1342,7 @@ Vamos a utilizar un broker mqtt público que podemos encontar en el siguiente en
 Ejecutamos el conector en este caso vamos a ejecutar el modo standalone para testing:
 
 ```
-kafka_2.11-0.10.2.1/bin/connect-standalone.sh kafka_2.11-0.10.2.1/config/connect-standalone.properties mqtt.properties
+kafka_2.12-2.1.0/bin/connect-standalone.sh kafka_2.12-2.1.0/config/connect-standalone.properties mqtt.properties
 ```
 
 Para enviar mensajes podemos usar la siguiente web, debemos enviar los mensajes al mqtt topic `testtopic/1` .
