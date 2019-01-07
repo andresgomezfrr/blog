@@ -40,15 +40,17 @@ apex>
 
 La instalación de hadoop podemos realizarla siguiente el tutorial [Instalación Hadoop](https://github.com/andresgomezfrr/big-data-md/tree/master/hadoop). Una vez instalado debemos añadir el binario de hadoop al PATH:
 
+**Nota:** Usar hadoop 2.6.5. 
+
 ```
-export PATH=$PATH:/root/hadoop-2.8.5/bin/
+export PATH=$PATH:/root/hadoop-2.6.5/bin/
 ```
 
 Si ahora volvemos a ejecutar la ApexCLI veremos que ya no nos muestra el warning:
 
 ```
 root@ip-172-31-2-55:~/apache-apex-core-3.7.0# ./engine/src/main/scripts/apex
-Apex CLI 3.6.0 Unknown Unknown
+Apex CLI 3.7.0 Unknown Unknown
 apex>
 ```
 
