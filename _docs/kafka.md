@@ -1299,7 +1299,7 @@ docker run -it -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://${MAIN_IP_ADDRESS}:9092
 En primer lugar vamos a descargar el proyecto del MQTT connector y haremos la build.
 
 ```
-git clone https://github.com/evokly/kafka-connect-mqtt.git
+git clone https://github.com/wizzie-io/kafka-connect-mqtt
 ```
 
 ```
@@ -1332,7 +1332,7 @@ mqtt.keep_alive_interval=60
 mqtt.server_uris=tcp://broker.hivemq.com:1883
 mqtt.topic=testtopic/1
 mqtt.qos=1
-message_processor_class=com.evokly.kafka.connect.mqtt.sample.DumbProcessor
+message_processor_class=com.evokly.kafka.connect.mqtt.sample.StringProcessor
 ```
 
 Vamos a utilizar un broker mqtt público que podemos encontar en el siguiente enlace:
