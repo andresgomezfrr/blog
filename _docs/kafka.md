@@ -15,10 +15,10 @@ Una vez vista la arquitectura básica de ZooKeeper y Kafka, vamos a iniciar ambo
 
 1. Ahora vamos a descargar la distribución de Kafka y la descomprimimos.
 ```
-wget http://apache.rediris.es/kafka/2.1.0/kafka_2.12-2.1.0.tgz
+wget http://apache.rediris.es/kafka/2.4.0/kafka_2.12-2.4.0.tgz
 ```
 ```
-tar -xvf kafka_2.12-2.1.0.tgz ; cd kafka_2.12-2.1.0
+tar -xvf kafka_2.12-2.4.0.tgz ; cd kafka_2.12-2.4.0
 ```
 
 2. En primer lugar vamos a ejecutar un servidor de Zookeeper:
@@ -100,40 +100,17 @@ Una vez ejecutado, la shell se quedará abierta y empezaremos a ver los mensajes
 
 ```
 cat config/consumer.properties
-# Licensed to the Apache Software Foundation (ASF) under one or more
-# contributor license agreements.  See the NOTICE file distributed with
-# this work for additional information regarding copyright ownership.
-# The ASF licenses this file to You under the Apache License, Version 2.0
-# (the "License"); you may not use this file except in compliance with
-# the License.  You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# see kafka.consumer.ConsumerConfig for more details
 
-# Zookeeper connection string
-# comma separated host:port pairs, each corresponding to a zk
-# server. e.g. "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002"
-zookeeper.connect=127.0.0.1:2181
-
-# timeout in ms for connecting to zookeeper
-zookeeper.connection.timeout.ms=6000
+#kafka server
+bootstrap.servers=127.0.0.1:9092
 
 #consumer group id
 group.id=test-consumer-group
 
-#consumer timeout
-#consumer.timeout.ms=5000
 ```
 
 Podemos ver que se indica un group.id con valor de **test-consumer-group**.
 
-* **Nota:** Hemos utilizado la opción **--new-consumer** ya que hemos utilizado la nueva API de Kafka introducida en la versión 0.9.0. El consumidor aun permite utilizar la API antigua.
 
 # Configuración
 
@@ -1033,13 +1010,13 @@ jconsole
 En primer lugar vamos a descargar la última versión del software desde el enlace que se encuentra en el repositorio oficial [Kafka Manager Github](https://github.com/yahoo/kafka-manager).
 
 ```
-wget https://github.com/yahoo/kafka-manager/archive/1.3.3.18.tar.gz
+wget https://github.com/yahoo/kafka-manager/archive/2.0.0.2.tar.gz
 ```
 
 Una vez descargado tenemos que descomprimir el fichero y nos creada una carpeta con el siguiente nombre *kafka-manager-1.3.1.8*
 
 ```
-tar -xvf 1.3.3.18.tar.gz
+tar -xvf 2.0.0.2.tar.gz
 ```
 
 Cuando tengamos la carpeta únicamente tenemos que construir la distribución utilizando el siguiente comando:
@@ -1053,10 +1030,10 @@ Cuando tengamos la carpeta únicamente tenemos que construir la distribución ut
 Al terminar el comando nos habra construido un fichero ZIP, que vamos a descomprimir, y entrar en la carpeta que se genera.
 
 ```
-unzip target/universal/kafka-manager-1.3.3.18.zip
+unzip target/universal/kafka-manager-2.0.0.2.zip
 ```
 ```
-cd kafka-manager-1.3.3.18/
+cd kafka-manager-2.0.0.2/
 ```
 
 Tenemos que editar el fichero de configuración en la ruta *conf/application.conf* y editar la linea donde se indica el servidor de ZooKeeper.
@@ -1309,8 +1286,8 @@ cd kafka-connect-mqtt; ./gradlew clean jar copyRuntimeLibs
 Una vez generado el jar lo copiamos dentro de la carpeta `libs` de la distribución de Kafka.
 
 ```
-cp build/libs/kafka-connect-mqtt-1.1-SNAPSHOT.jar ~/kafka_2.12-2.1.0/libs/
-cp build/output/lib/org.eclipse.paho.client.mqttv3-1.0.2.jar ~/kafka_2.12-2.1.0/libs/
+cp build/libs/kafka-connect-mqtt-1.1-SNAPSHOT.jar ~/kafka_2.12-2.2.0/libs/
+cp build/output/lib/org.eclipse.paho.client.mqttv3-1.0.2.jar ~/kafka_2.12-2.2.0/libs/
 ```
 
 Una vez añadida las dependencias tenemos que [iniciar un servidor ZooKeeper y un broker de Kafka](https://github.com/andresgomezfrr/big-data-md/blob/master/kafka/1.arquitectura/zookeeper-kafka.md).
@@ -1342,7 +1319,7 @@ Vamos a utilizar un broker mqtt público que podemos encontar en el siguiente en
 Ejecutamos el conector en este caso vamos a ejecutar el modo standalone para testing:
 
 ```
-kafka_2.12-2.1.0/bin/connect-standalone.sh kafka_2.12-2.1.0/config/connect-standalone.properties mqtt.properties
+kafka_2.12-2.2.0/bin/connect-standalone.sh kafka_2.12-2.2.0/config/connect-standalone.properties mqtt.properties
 ```
 
 Para enviar mensajes podemos usar la siguiente web, debemos enviar los mensajes al mqtt topic `testtopic/1` .
