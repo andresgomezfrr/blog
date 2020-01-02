@@ -1271,23 +1271,37 @@ docker run -it -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://${MAIN_IP_ADDRESS}:9092
 
 # Connectors
 
+Antes de todo, creamos la carpeta `connectors-plugins` dentro de la distribución de Kafka, y configuramos los ficheros `config/connect-distributed.properties` y `config/connect-standalone.properties` para que utilicen la carpeta de plugins.
+
+```
+# Adaptar esta ruta correctamente.
+plugin.path=/kafka_2.12-2.4.0/connector-plugins
+```
+
+## JDBC Postgres Connector
+
+```
+git clone https://github.com/confluentinc/kafka-connect-jdbc.git
+```
+
+
+
 ## MQTT Kafka Source Connector
 
 En primer lugar vamos a descargar el proyecto del MQTT connector y haremos la build.
 
 ```
-git clone https://github.com/wizzie-io/kafka-connect-mqtt
+git clone https://github.com/andresgomezfrr/kafka-mqtt-connector.git
 ```
 
 ```
-cd kafka-connect-mqtt; ./gradlew clean jar copyRuntimeLibs
+cd kafka-connect-mqtt; mvn package
 ```
 
-Una vez generado el jar lo copiamos dentro de la carpeta `libs` de la distribución de Kafka.
+Una vez generado el jar lo copiamos dentro de la carpeta `connectors-plugins` de la distribución de Kafka.
 
 ```
-cp build/libs/kafka-connect-mqtt-1.1-SNAPSHOT.jar ~/kafka_2.12-2.2.0/libs/
-cp build/output/lib/org.eclipse.paho.client.mqttv3-1.0.2.jar ~/kafka_2.12-2.2.0/libs/
+cp target/kafka-connectors-mqtt-0.0.1-SNAPSHOT-jar-with-dependencies.jar ~/kafka_2.12-2.4.0/connectors-plugins/
 ```
 
 Una vez añadida las dependencias tenemos que [iniciar un servidor ZooKeeper y un broker de Kafka](https://github.com/andresgomezfrr/big-data-md/blob/master/kafka/1.arquitectura/zookeeper-kafka.md).
@@ -1296,30 +1310,52 @@ Creamos el fichero que usaremos para configurar nuestro conector mqtt:
 **mqtt.properties**
 
 ```properties
+connector.class=com.andresgomezfrr.kafka.connectors.mqtt.MqttSourceConnector
 name=mqtt
-connector.class=com.evokly.kafka.connect.mqtt.MqttSourceConnector
 tasks.max=1
 
 #Settings
 kafka.topic=mqtt
-mqtt.client_id=my-id
-mqtt.clean_session=true
-mqtt.connection_timeout=30
-mqtt.keep_alive_interval=60
 mqtt.server_uris=tcp://broker.hivemq.com:1883
 mqtt.topic=testtopic/1
-mqtt.qos=1
-message_processor_class=com.evokly.kafka.connect.mqtt.sample.StringProcessor
+message_processor_class=com.andresgomezfrr.kafka.connectors.mqtt.sample.StringProcessor
 ```
 
 Vamos a utilizar un broker mqtt público que podemos encontar en el siguiente enlace:
 
-[Broker MQTT](http://www.hivemq.com/try-out/)
+[Broker MQTT](https://www.hivemq.com/public-mqtt-broker/)
 
-Ejecutamos el conector en este caso vamos a ejecutar el modo standalone para testing:
+Para ejecutar el connector en modo standlaone:
 
 ```
-kafka_2.12-2.2.0/bin/connect-standalone.sh kafka_2.12-2.2.0/config/connect-standalone.properties mqtt.properties
+kafka_2.12-2.4.0/bin/connect-standalone.sh kafka_2.12-2.4.0/config/connect-standalone.properties mqtt.properties
+```
+
+Si queremos usar el modo distributed:
+
+```
+kafka_2.12-2.4.0/bin/connect-distributed.sh kafka_2.12-2.4.0/config/connect-distributed.properties
+```
+
+Para dar de alta el connector:
+
+```bash
+curl http://localhost:8083/connectors -H "Content-Type: application/json" -d '{
+	"name": "mqtt-connector",
+	"config": {
+       	 "connector.class": "com.andresgomezfrr.kafka.connectors.mqtt.MqttSourceConnector",
+          "kafka.topic": "mqtt",
+          "mqtt.server_uris": "tcp://broker.hivemq.com:1883",
+          "message_processor_class": "com.andresgomezfrr.kafka.connectors.mqtt.sample.StringProcessor",
+     	  "mqtt.topic":"testtopic/1"
+	}
+}'
+```
+
+Para borarr el connector:
+
+```bash
+curl http://localhost:8083/connectors/mqtt-connector -X DELETE -H "Content-Type: application/json"
 ```
 
 Para enviar mensajes podemos usar la siguiente web, debemos enviar los mensajes al mqtt topic `testtopic/1` .
