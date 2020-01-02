@@ -1284,6 +1284,63 @@ plugin.path=/kafka_2.12-2.4.0/connector-plugins
 git clone https://github.com/confluentinc/kafka-connect-jdbc.git
 ```
 
+```
+cd kafka-connect-jdbc; mvn package
+```
+
+Una vez generado el paquete lo copiamos dentro de la carepta de plugins:
+
+```
+cp -r target/kafka-connect-jdbc-5.3.2-package ~/kafka_2.12-2.4.0/connector-plugins/
+```
+
+Vamos a arrancar un postgres usando docker y ejecutamos el conector:
+
+```
+docker rm postgres; docker run -it -p 5432:5432 --name postgres postgres:11
+```
+
+```bash
+curl http://localhost:8083/connectors -H "Content-Type: application/json" -d '{
+  "name": "jdbc-source",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
+    "tasks.max": "1",
+    "connection.url": "jdbc:postgresql://localhost:5432/postgres",
+	"connection.user": "postgres",
+    "mode": "incrementing",
+    "incrementing.column.name": "id",
+    "topic.prefix": "jdbc-"
+  }
+}'
+```
+
+Nos conectaremos a postgres usando psql y crearemos una tabla con datos:
+
+```
+docker exec -it postgres psql -U postgres
+```
+
+```
+CREATE TABLE COMPANY(
+   ID  SERIAL PRIMARY KEY,
+   NAME           TEXT      NOT NULL,
+   AGE            INT       NOT NULL,
+   ADDRESS        TEXT,
+   SALARY         REAL
+);
+
+INSERT INTO COMPANY (NAME,AGE,ADDRESS,SALARY)
+VALUES ( 'Paul', 32, 'California', 20000.00 );
+
+INSERT INTO COMPANY (NAME,AGE,ADDRESS,SALARY)
+VALUES ('Allen', 25, 'Texas', 15000.00 );
+
+INSERT INTO COMPANY (NAME,AGE,ADDRESS,SALARY)
+VALUES ('Teddy', 23, 'Norway', 20000.00 );
+```
+
+Podemos comprobar que se ha creado un topic `jdbc-company` que contiene 3 mensajes por cada uno de las rows insertadas.
 
 
 ## MQTT Kafka Source Connector
