@@ -12,3 +12,4 @@ permalink: /documentation/
 * <a href="{{site.baseurl}}/druid/" class="nav-link">Druid</a>
 * <a href="{{site.baseurl}}/streaming-platform/" class="nav-link">Streaming Platform</a>
 * <a href="{{site.baseurl}}/streaming-platform-v2/" class="nav-link">Streaming Platform v2</a>
+* <a href="{{site.baseurl}}/streaming-platform-v3/" class="nav-link">Streaming Platform v3</a>
