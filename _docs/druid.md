@@ -11,7 +11,7 @@ permalink: /druid/
 
 1. Descargamos y descomprimimos Druid:
   ```
-  wget http://apache.uvigo.es/druid/0.17.0/apache-druid-0.17.0-bin.tar.gz && tar -xzf apache-druid-0.17.0-bin.tar.gz && cd apache-druid-0.17.0
+  wget https://ftp.cixug.es/apache/druid/0.20.1/apache-druid-0.20.1-bin.tar.gz && tar -xzf apache-druid-0.20.1-bin.tar.gz&& cd apache-druid-0.20.1
   ```
 2. Arrancamos el setup para desarrollo:
   ```
@@ -19,13 +19,117 @@ permalink: /druid/
   ```
 3. Accedemos a la interfaz unificada, para comprobar que todo esta funcionando correctamente. [http://localhost:8888/unified-console.html](http://localhost:8888/unified-console.html)
 
+```json
+{"sensor_id":3,"temperature":30,"humidity":80,"timestamp":1599758629}
+{"sensor_id":1,"temperature":25,"humidity":80,"timestamp":1599758629}
+{"sensor_id":2,"temperature":26,"humidity":59,"timestamp":1599758569}
+{"sensor_id":2,"temperature":30,"humidity":72,"timestamp":1599758569}
+{"sensor_id":2,"temperature":27,"humidity":73,"timestamp":1599758629}
+{"sensor_id":2,"temperature":31,"humidity":62,"timestamp":1599758569}
+{"sensor_id":3,"temperature":30,"humidity":80,"timestamp":1599758629}
+{"sensor_id":2,"temperature":30,"humidity":75,"timestamp":1599758629}
+{"sensor_id":3,"temperature":30,"humidity":68,"timestamp":1599758689}
+{"sensor_id":1,"temperature":28,"humidity":51,"timestamp":1599758569}
+{"sensor_id":1,"temperature":31,"humidity":65,"timestamp":1599758569}
+{"sensor_id":3,"temperature":25,"humidity":75,"timestamp":1599758689}
+{"sensor_id":1,"temperature":31,"humidity":54,"timestamp":1599758689}
+{"sensor_id":1,"temperature":27,"humidity":73,"timestamp":1599758629}
+{"sensor_id":1,"temperature":26,"humidity":74,"timestamp":1599758629}
+{"sensor_id":1,"temperature":29,"humidity":67,"timestamp":1599758569}
+{"sensor_id":1,"temperature":25,"humidity":62,"timestamp":1599758569}
+{"sensor_id":2,"temperature":27,"humidity":75,"timestamp":1599758689}
+{"sensor_id":3,"temperature":31,"humidity":69,"timestamp":1599758689}
+{"sensor_id":2,"temperature":26,"humidity":51,"timestamp":1599758629}
+{"sensor_id":1,"temperature":27,"humidity":64,"timestamp":1599758569}
+{"sensor_id":2,"temperature":31,"humidity":58,"timestamp":1599758629}
+{"sensor_id":1,"temperature":25,"humidity":51,"timestamp":1599758689}
+{"sensor_id":2,"temperature":31,"humidity":59,"timestamp":1599758569}
+{"sensor_id":3,"temperature":30,"humidity":59,"timestamp":1599758689}
+{"sensor_id":2,"temperature":26,"humidity":74,"timestamp":1599758689}
+{"sensor_id":3,"temperature":32,"humidity":72,"timestamp":1599758689}
+{"sensor_id":3,"temperature":30,"humidity":65,"timestamp":1599758569}
+{"sensor_id":3,"temperature":26,"humidity":60,"timestamp":1599758629}
+{"sensor_id":1,"temperature":25,"humidity":54,"timestamp":1599758689}
+{"sensor_id":2,"temperature":29,"humidity":50,"timestamp":1599758569}
+{"sensor_id":1,"temperature":30,"humidity":77,"timestamp":1599758569}
+{"sensor_id":3,"temperature":26,"humidity":80,"timestamp":1599758689}
+{"sensor_id":1,"temperature":30,"humidity":67,"timestamp":1599758689}
+{"sensor_id":2,"temperature":30,"humidity":73,"timestamp":1599758569}
+{"sensor_id":3,"temperature":29,"humidity":70,"timestamp":1599758629}
+{"sensor_id":2,"temperature":29,"humidity":71,"timestamp":1599758569}
+{"sensor_id":3,"temperature":30,"humidity":67,"timestamp":1599758689}
+{"sensor_id":2,"temperature":32,"humidity":66,"timestamp":1599758629}
+{"sensor_id":3,"temperature":32,"humidity":51,"timestamp":1599758629}
+{"sensor_id":3,"temperature":31,"humidity":65,"timestamp":1599758689}
+{"sensor_id":3,"temperature":27,"humidity":72,"timestamp":1599758689}
+{"sensor_id":3,"temperature":25,"humidity":65,"timestamp":1599758629}
+{"sensor_id":3,"temperature":30,"humidity":70,"timestamp":1599758629}
+{"sensor_id":3,"temperature":28,"humidity":56,"timestamp":1599758689}
+{"sensor_id":1,"temperature":28,"humidity":53,"timestamp":1599758629}
+{"sensor_id":3,"temperature":28,"humidity":67,"timestamp":1599758689}
+{"sensor_id":2,"temperature":32,"humidity":75,"timestamp":1599758569}
+{"sensor_id":1,"temperature":31,"humidity":69,"timestamp":1599758629}
+{"sensor_id":1,"temperature":30,"humidity":63,"timestamp":1599758569}
+{"sensor_id":2,"temperature":29,"humidity":65,"timestamp":1599758689}
+{"sensor_id":1,"temperature":26,"humidity":66,"timestamp":1599758629}
+{"sensor_id":2,"temperature":27,"humidity":70,"timestamp":1599758689}
+{"sensor_id":1,"temperature":26,"humidity":54,"timestamp":1599758689}
+{"sensor_id":1,"temperature":28,"humidity":65,"timestamp":1599758629}
+{"sensor_id":3,"temperature":27,"humidity":52,"timestamp":1599758569}
+{"sensor_id":1,"temperature":31,"humidity":61,"timestamp":1599758569}
+{"sensor_id":1,"temperature":28,"humidity":72,"timestamp":1599758689}
+{"sensor_id":2,"temperature":28,"humidity":72,"timestamp":1599758629}
+{"sensor_id":3,"temperature":27,"humidity":80,"timestamp":1599758569}
+{"sensor_id":2,"temperature":29,"humidity":75,"timestamp":1599758689}
+{"sensor_id":2,"temperature":25,"humidity":60,"timestamp":1599758569}
+{"sensor_id":3,"temperature":31,"humidity":79,"timestamp":1599758569}
+{"sensor_id":2,"temperature":26,"humidity":68,"timestamp":1599758689}
+{"sensor_id":1,"temperature":26,"humidity":59,"timestamp":1599758569}
+{"sensor_id":3,"temperature":29,"humidity":77,"timestamp":1599758569}
+{"sensor_id":2,"temperature":30,"humidity":60,"timestamp":1599758569}
+{"sensor_id":1,"temperature":25,"humidity":58,"timestamp":1599758569}
+{"sensor_id":3,"temperature":29,"humidity":71,"timestamp":1599758569}
+{"sensor_id":1,"temperature":26,"humidity":61,"timestamp":1599758689}
+{"sensor_id":2,"temperature":26,"humidity":66,"timestamp":1599758629}
+{"sensor_id":3,"temperature":26,"humidity":51,"timestamp":1599758689}
+{"sensor_id":1,"temperature":30,"humidity":74,"timestamp":1599758569}
+{"sensor_id":2,"temperature":26,"humidity":56,"timestamp":1599758689}
+{"sensor_id":1,"temperature":26,"humidity":74,"timestamp":1599758629}
+{"sensor_id":3,"temperature":27,"humidity":64,"timestamp":1599758569}
+{"sensor_id":2,"temperature":28,"humidity":66,"timestamp":1599758629}
+{"sensor_id":2,"temperature":30,"humidity":51,"timestamp":1599758569}
+{"sensor_id":1,"temperature":31,"humidity":72,"timestamp":1599758629}
+{"sensor_id":3,"temperature":25,"humidity":78,"timestamp":1599758689}
+{"sensor_id":2,"temperature":30,"humidity":65,"timestamp":1599758569}
+{"sensor_id":3,"temperature":25,"humidity":68,"timestamp":1599758569}
+{"sensor_id":2,"temperature":31,"humidity":63,"timestamp":1599758689}
+{"sensor_id":2,"temperature":32,"humidity":78,"timestamp":1599758689}
+{"sensor_id":3,"temperature":27,"humidity":55,"timestamp":1599758629}
+{"sensor_id":3,"temperature":25,"humidity":73,"timestamp":1599758569}
+{"sensor_id":3,"temperature":32,"humidity":62,"timestamp":1599758629}
+{"sensor_id":2,"temperature":26,"humidity":68,"timestamp":1599758569}
+{"sensor_id":1,"temperature":32,"humidity":73,"timestamp":1599758689}
+{"sensor_id":1,"temperature":32,"humidity":63,"timestamp":1599758569}
+{"sensor_id":2,"temperature":28,"humidity":78,"timestamp":1599758629}
+{"sensor_id":2,"temperature":32,"humidity":52,"timestamp":1599758569}
+{"sensor_id":2,"temperature":26,"humidity":55,"timestamp":1599758569}
+{"sensor_id":1,"temperature":32,"humidity":67,"timestamp":1599758689}
+{"sensor_id":3,"temperature":32,"humidity":61,"timestamp":1599758629}
+{"sensor_id":2,"temperature":26,"humidity":80,"timestamp":1599758629}
+{"sensor_id":1,"temperature":27,"humidity":67,"timestamp":1599758689}
+{"sensor_id":3,"temperature":32,"humidity":66,"timestamp":1599758629}
+{"sensor_id":3,"temperature":32,"humidity":75,"timestamp":1599758689}
+{"sensor_id":1,"temperature":31,"humidity":51,"timestamp":1599758629}
+```
+
+
 ## [Creando una tarea de indexación](https://druid.apache.org/docs/latest/tutorials/tutorial-ingestion-spec.html)
 
 # Cargando datos
 
 * [Cargando datos usando fichero local](https://druid.apache.org/docs/latest/tutorials/tutorial-batch.html#loading-data-with-the-data-loader)
 
-* [Cargando datos usando la extension de s3](https://druid.apache.org/docs/0.17.0/development/extensions-core/s3.html)
+* [Cargando datos usando la extension de s3](https://druid.apache.org/docs/0.20.1/development/extensions-core/s3.html)
 
 * [Cargando datos usando Kafka](https://druid.apache.org/docs/latest/tutorials/tutorial-kafka.html)
 
@@ -64,10 +168,6 @@ docker run -it -v "$PWD/data:/var/lib/grafana" -p 3000:3000 grafana/grafana:6.6.
 ```
 grafana-cli plugins install abhisant-druid-datasource
 ```
-
-## Swiv + Druid
-
-https://github.com/YahooArchive/swiv
 
 ## Metabase + Druid
 
